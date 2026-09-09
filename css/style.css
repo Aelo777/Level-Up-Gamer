@@ -29,6 +29,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   letter-spacing: 1px;
 }
+
 /* Utilidad general de contenedor centrado */
 .container {
   max-width: 1100px;
@@ -374,6 +375,10 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0 !important;
 }
 
+.mt-32 {
+  margin-top: 2rem !important;
+}
+
 /* ==========================================
    FOOTER DEL CATÁLOGO
    ========================================== */
@@ -404,27 +409,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================
-   RESPONSIVE PARA NAVEGACIÓN MÓVIL
-   ========================================== */
-@media (max-width: 768px) {
-  .nav-bar {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  .footer-grid {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-/* ==========================================
-   FIX CATÁLOGO Y TAMAÑO DE IMÁGENES SVG
+   CATÁLOGO Y TAMAÑO DE IMÁGENES
    ========================================== */
 
 /* Layout de 2 columnas (Filtros a la izquierda, productos a la derecha) */
@@ -526,7 +511,7 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--accent-blue);
 }
 
-/* FIX CRÍTICO: Controlar el tamaño máximo de las imágenes SVG */
+/* Controlar el tamaño máximo de las imágenes */
 .product-card img {
   width: 100%;
   height: 180px;
@@ -571,8 +556,85 @@ h1, h2, h3, h4, h5, h6 {
   color: #000000;
 }
 
-/* Responsive para pantallas chicas */
+/* ==========================================
+   INTEGRACIÓN: ESTILOS DE LA TABLA Y CARRITO
+   ========================================== */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background-color: #0d0d0d;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #222222;
+}
+
+.cart-table th {
+  background-color: #141414;
+  color: var(--accent-blue);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.cart-table td {
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #0d0d0d;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.empty-state a {
+  color: var(--accent-neon);
+  text-decoration: none;
+}
+
+.empty-state a:hover {
+  text-decoration: underline;
+}
+
+.cart-summary {
+  background-color: #0d0d0d;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+/* ==========================================
+   RESPONSIVE PARA NAVEGACIÓN MÓVIL
+   ========================================== */
 @media (max-width: 768px) {
+  .nav-bar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .footer-grid {
+    flex-direction: column;
+    text-align: center;
+  }
+
   .catalog-layout {
     grid-template-columns: 1fr;
   }
