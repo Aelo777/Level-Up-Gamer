@@ -1,0 +1,26 @@
+/* 1. Box-sizing universal: el padding y border no alteran el ancho total */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. Variables CSS (Custom Properties) para consistencia temática */
+:root {
+  --bg-primary: #121214;
+  --bg-surface: #1e1e24;
+  --text-main: #f0f0f5;
+  --accent-neon: #00ff88;
+  --font-base: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 3. Base del documento */
+body {
+  font-family: var(--font-base);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+}
