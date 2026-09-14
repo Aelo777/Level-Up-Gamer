@@ -15,7 +15,6 @@ function esMayorDeEdad(fechaNacimientoStr) {
   const mesActual = hoy.getMonth();
   const mesNac = fechaNac.getMonth();
 
-  // Ajuste si aún no ha cumplido años en el mes en curso
   if (mesActual < mesNac || (mesActual === mesNac && hoy.getDate() < fechaNac.getDate())) {
     edad--;
   }
@@ -23,34 +22,51 @@ function esMayorDeEdad(fechaNacimientoStr) {
   return edad >= 18;
 }
 
-// Función para verificar si el correo es institucional Duoc
+// Función 1: Verificar si el correo es válido según la pauta (@duoc.cl, @profesor.duoc.cl, @gmail.com)[cite: 1, 6]
+function esCorreoValido(email) {
+  const emailLimpio = email.trim().toLowerCase();
+  return emailLimpio.endsWith('@duoc.cl') || 
+  emailLimpio.endsWith('@profesor.duoc.cl') || 
+  emailLimpio.endsWith('@gmail.com') ||
+  emailLimpio.endsWith('@duocuc.cl');
+}
+
+// Función 2: Verificar si aplica el beneficio institucional Duoc
 function esCorreoDuoc(email) {
   const emailLimpio = email.trim().toLowerCase();
-  return emailLimpio.endsWith('@duocuc.cl') || emailLimpio.endsWith('@profesor.duoc.cl');
+  return emailLimpio.endsWith('@duoc.cl') || 
+  emailLimpio.endsWith('@profesor.duoc.cl') || 
+  emailLimpio.endsWith('@duocuc.cl');
 }
 
 // Manejo del evento de envío (Submit)
 formRegistro.addEventListener('submit', function (evento) {
-  evento.preventDefault(); // Detiene el envío automático para validar primero
+  evento.preventDefault();
 
   const emailValor = inputEmail.value.trim();
   const fechaValor = inputFecha.value;
 
-  // 1. Validar mayoría de edad
+  // 1. Validar formato de correo permitido
+  if (!esCorreoValido(emailValor)) {
+    mostrarAlerta('Error: Solo se permiten correos @duoc.cl, @profesor.duoc.cl o @gmail.com[cite: 1, 6].', 'error');
+    inputEmail.focus();
+    return;
+  }
+
+  // 2. Validar mayoría de edad[cite: 6]
   if (!esMayorDeEdad(fechaValor)) {
-    mostrarAlerta('Debes ser mayor de 18 años para registrarte en Level-Up Gamer.', 'error');
+    mostrarAlerta('Debes ser mayor de 18 años para registrarte en Level-Up Gamer[cite: 6].', 'error');
     inputFecha.focus();
     return;
   }
 
-  // 2. Comprobar si aplica el beneficio Duoc
+  // 3. Comprobar si aplica el beneficio Duoc
   if (esCorreoDuoc(emailValor)) {
-    mostrarAlerta('¡Registro exitoso! Se ha validado tu correo institucional. Se aplicó tu 20% de descuento vitalicio.', 'exito');
+    mostrarAlerta('¡Registro exitoso! Se ha validado tu correo institucional. Se aplicó tu 20% de descuento vitalicio[cite: 6].', 'exito');
   } else {
     mostrarAlerta('¡Registro exitoso! Bienvenido a la comunidad Level-Up Gamer.', 'exito');
   }
 
-  // Opcional: limpiar el formulario tras un envío correcto
   // formRegistro.reset();
 });
 
