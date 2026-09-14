@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Level-Up Gamer | Catálogo</title>
+  <title>Catálogo | Level-Up Gamer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Apuntando al nuevo nombre del archivo CSS -->
@@ -11,26 +11,18 @@
 </head>
 <body>
 
-  <!-- Encabezado y Navegación Compartida -->
-  <header class="main-header">
-  <div class="logo">
-    <a href="index.html">LEVEL-UP <span>GAMER</span></a>
-  </div>
-  <nav aria-label="Navegación principal">
+<header class="site-header">
+  <nav class="nav-bar container" aria-label="Navegación principal">
+    <a href="index.html" class="brand">LEVEL-UP <span>GAMER</span></a>
     <ul class="nav-links">
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="catalogo.html" aria-current="page" class="active">Catálogo</a></li>
-      <li><a href="registro.html">Registro</a></li>
+      <li><a href="catalogo.html" aria-current="page">Catálogo</a></li>
+      <li><a href="registro.html">Crear cuenta</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
       <li><a href="carrito.html" class="cart-link">🛒 Carrito <span class="cart-count" data-cart-count>0</span></a></li>
-      <li><a href="soporte.html">Soporte</a></li>
-
-      <!-- Zona dinámica de usuario / login -->
-        <li id="user-nav">
-          <a href="login.html" class="btn-login-nav">Ingresar</a>
-        </li>
     </ul>
   </nav>
-  </header>
+</header>
 
 <main class="section">
   <div class="container">
@@ -59,34 +51,15 @@
   </div>
 </main>
 
-<!-- Footer Institucional -->
-<footer class="main-footer">
-  <div class="container footer-content">
-    <div class="footer-brand">
-      <h4>LEVEL-UP <span>GAMER</span></h4>
-      <p>La tienda online líder para jugadores en Chile. Despachos a todo el país.</p>
-    </div>
-    <div class="footer-links">
-      <h5>Navegación</h5>
-      <ul>
-        <li><a href="catalogo.html">Catálogo Completo</a></li>
-        <li><a href="registro.html">Registro y Beneficio Duoc</a></li>
-        <li><a href="soporte.html">Soporte Técnico</a></li>
-      </ul>
-    </div>
-    <div class="footer-social">
-      <h5>Comunidad</h5>
-      <p>Síguenos y comparte ofertas en redes sociales.</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2026 Level-Up Gamer - Proyecto Semestral Duoc UC. Todos los derechos reservados.</p>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <p class="mb-0">© 2026 Level-Up Gamer. Proyecto académico DSY1104 — Duoc UC.</p>
+    <p class="mb-0"><a href="contacto.html">Contacto</a> · <a href="registro.html">Crear cuenta</a></p>
   </div>
 </footer>
 
 <script src="js/data.js"></script>
 <script src="js/carrito.js"></script>
 <script src="js/catalogo.js"></script>
-<script src="js/auth-nav.js"></script>
 </body>
 </html>
