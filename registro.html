@@ -25,6 +25,7 @@
       <li><a href="catalogo.html">Catálogo</a></li>
       <li><a href="registro.html" class="active">Registro</a></li>
       <li><a href="soporte.html">Soporte</a></li>
+      <li><a href="blog.html">Blog</a></li>
       <li><a href="carrito.html" class="cart-link">🛒 Carrito <span class="cart-count" data-cart-count>0</span></a></li>
             
       <!-- Zona dinámica de usuario / login -->
@@ -49,6 +50,12 @@
 
       <form action="#" method="POST" class="auth-form" id="form-registro">
         
+        <!-- RUT -->
+        <div class="form-group">
+          <label for="rut">RUT (Sin puntos ni guión)</label>
+          <input type="text" id="rut" name="rut" placeholder="Ej: 25123456K" minlength="8" maxlength="9" pattern="^[0-9]{7,8}[0-9kK]$" title="Debe tener entre 8 y 9 caracteres, solo números y terminar en número o K" required>
+        </div>
+
         <!-- Nombre completo -->
         <div class="form-group">
           <label for="fullname">Nombre Completo</label>

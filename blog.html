@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Level-Up Gamer | Soporte</title>
+  <title>Level-Up Gamer | Blog</title>
 
   <!-- Google Fonts: Orbitron (Títulos) y Roboto (Cuerpo) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,8 +25,8 @@
         <li><a href="index.html">Inicio</a></li>
         <li><a href="catalogo.html">Catálogo</a></li>
         <li><a href="registro.html">Registro</a></li>
-        <li><a href="soporte.html" class="active">Soporte</a></li>
-        <li><a href="blog.html">Blog</a></li>
+        <li><a href="soporte.html">Soporte</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
         <li><a href="carrito.html" class="cart-link">🛒 Carrito <span class="cart-count" data-cart-count>0</span></a></li>
         
         <!-- Zona dinámica de usuario / login -->
@@ -37,44 +37,12 @@
     </nav>
   </header>
 
-  <!-- Contenido Principal: Formulario de Soporte / Contacto -->
+  <!-- Contenido Principal: Blog -->
   <main class="container form-page">
     <div class="form-card">
       <header class="form-header">
-        <h2>Formulario de Contacto</h2>
+        <h2>Noticias del mundo Gamer</h2>
       </header>
-
-      <form action="#" method="POST" class="auth-form" id="form-soporte" novalidate>
-        
-        <!-- Nombre completo -->
-        <div class="form-group">
-          <label for="nombre">Nombre Completo</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" maxlength="100">
-          <span class="error-message" id="error-nombre" style="color: #ff4d4d; font-size: 0.85rem; display: none; margin-top: 5px;"></span>
-        </div>
-
-        <!-- Correo electrónico -->
-        <div class="form-group">
-          <label for="email">Correo Electrónico</label>
-          <input type="email" id="email" name="email" placeholder="usuario@duoc.cl" maxlength="100">
-          <small class="form-hint">Permitidos: @duoc.cl, @profesor.duoc.cl o @gmail.com</small>
-          <span class="error-message" id="error-email" style="color: #ff4d4d; font-size: 0.85rem; display: none; margin-top: 5px;"></span>
-        </div>
-
-        <!-- Comentario / Mensaje -->
-        <div class="form-group">
-          <label for="comentario">Comentario o Mensaje</label>
-          <textarea id="comentario" name="comentario" rows="5" placeholder="Escribe tu consulta (máximo 500 caracteres)" maxlength="500" style="width: 100%; padding: 10px; background: #111; color: #fff; border: 1px solid #333; border-radius: 4px;"></textarea>
-          <span class="error-message" id="error-comentario" style="color: #ff4d4d; font-size: 0.85rem; display: none; margin-top: 5px;"></span>
-        </div>
-
-        <!-- Feedback general -->
-        <div id="soporte-feedback" style="margin-bottom: 15px; font-weight: bold; display: none; text-align: center;"></div>
-
-        <!-- Botón de envío -->
-        <button type="submit" class="btn-primary btn-block">Enviar Mensaje</button>
-
-      </form>
     </div>
   </main>
 
@@ -105,6 +73,5 @@
 
   <!-- Scripts -->
   <script src="js/auth-nav.js"></script>
-  <script src="js/soporte.js"></script>
 </body>
 </html>

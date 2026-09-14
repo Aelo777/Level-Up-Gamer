@@ -4,6 +4,26 @@ const inputFecha = document.getElementById('birthdate');
 const inputEmail = document.getElementById('email');
 const cajaAlerta = document.getElementById('alerta-registro');
 
+// Función para validar el RUT chileno
+function validarRut(rutInput) {
+    // Limpiar y dejar la letra K en mayúscula
+    const rutLimpio = rutInput.trim().toUpperCase();
+    
+    // Validar longitud (8 a 9 caracteres) y patrón (números + posible K al final)
+    const regex = /^[0-9]{7,8}[0-9K]$/;
+    if (!regex.test(rutLimpio)) {
+        return "El formato debe ser de 8 a 9 caracteres, solo números y K al final.";
+    }
+
+    // Extraer la parte numérica para validar que sea menor a 30 millones
+    const cuerpo = parseInt(rutLimpio.slice(0, -1), 10);
+    if (cuerpo >= 30000000) {
+        return "El RUT ingresado corresponde a una empresa.";
+    }
+
+    return null; // Todo OK
+}
+
 // Función para calcular si tiene 18 años o más
 function esMayorDeEdad(fechaNacimientoStr) {
   if (!fechaNacimientoStr) return false;
