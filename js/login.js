@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
       feedback.style.display = "block";
 
       setTimeout(() => {
-        window.location.href = "index.html";
+        window.location.href = "catalogo.html";
       }, 1000);
     }
   });
