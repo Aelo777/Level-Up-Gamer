@@ -454,3 +454,69 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--accent-neon);
   color: var(--accent-neon);
 }
+
+/* --- Estilos Actualizados para el Blog --- */
+
+.blog-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1000px; /* Aumentamos un poco el ancho para que quepa la imagen */
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.news-card {
+    background-color: #121212;
+    border: 1px solid #22f038;
+    border-radius: 8px;
+    padding: 0; /* Eliminamos el padding general para que la imagen toque el borde */
+    display: flex; /* Activamos Flexbox para alinear elementos en fila */
+    flex-direction: row; /* Alinear imagen (izq) y texto (der) */
+    overflow: 1.00; /* Asegura que los hijos no se salgan de la tarjeta */
+    height: 250px; /* Altura fija para mantener la consistencia */
+}
+
+/* Estilos para el contenedor de la imagen */
+.card-image-container {
+    flex: 0 0 35%; /* La imagen ocupará un 35% fijo del ancho */
+    height: 100%; /* Ocupa toda la altura de la tarjeta */
+    overflow: hidden; /* Recorta la imagen si es muy grande */
+}
+
+.card-image-container img {
+    width: 100%; /* La imagen se ajusta al ancho del contenedor */
+    height: 100%; /* La imagen se ajusta a la altura del contenedor */
+    object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
+}
+
+/* Estilos para el contenedor del texto */
+.card-content {
+    flex: 1; /* El texto ocupa el resto del espacio disponible (65%) */
+    padding: 20px; /* Agregamos padding interno solo al texto */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente el texto dentro de la columna */
+}
+
+.news-card h2 {
+    color: #22f038;
+    margin-bottom: 5px;
+    font-size: 1.2rem; /* Ajustamos tamaño del título para que no ocupe tanto espacio */
+}
+
+.news-date {
+    font-size: 0.85rem;
+    color: #888;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.news-card p {
+    font-size: 0.9rem; /* Ajustamos tamaño del párrafo */
+    line-height: 1.4;
+    color: #ccc;
+}
+
+
+
