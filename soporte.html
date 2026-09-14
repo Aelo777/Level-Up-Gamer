@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Level-Up Gamer | Soportel</title>
+  <title>Level-Up Gamer | Soporte</title>
 
   <!-- Google Fonts: Orbitron (Títulos) y Roboto (Cuerpo) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,50 +17,93 @@
 
   <!-- Encabezado y Navegación Compartida -->
   <header class="main-header">
-  <div class="logo">
-    <a href="index.html">LEVEL-UP <span>GAMER</span></a>
-  </div>
-  <nav aria-label="Navegación principal">
-    <ul class="nav-links">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="catalogo.html">Catálogo</a></li>
-      <li><a href="registro.html">Registro</a></li>
-      <li><a href="carrito.html" class="cart-link">🛒 Carrito <span class="cart-count" data-cart-count>0</span></a></li>
-      <li><a href="soporte.html" class="active">Soporte</a></li>
+    <div class="logo">
+      <a href="index.html">LEVEL-UP <span>GAMER</span></a>
+    </div>
+    <nav aria-label="Navegación principal">
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="catalogo.html">Catálogo</a></li>
+        <li><a href="registro.html">Registro</a></li>
+        <li><a href="carrito.html" class="cart-link">🛒 Carrito <span class="cart-count" data-cart-count>0</span></a></li>
+        <li><a href="soporte.html" class="active">Soporte</a></li>
 
-      <!-- Zona dinámica de usuario / login -->
+        <!-- Zona dinámica de usuario / login -->
         <li id="user-nav">
           <a href="login.html" class="btn-login-nav">Ingresar</a>
         </li>
-    </ul>
-  </nav>
+      </ul>
+    </nav>
   </header>
 
+  <!-- Contenido Principal: Formulario de Soporte / Contacto -->
+  <main class="container form-page">
+    <div class="form-card">
+      <header class="form-header">
+        <h2>Formulario de Contacto</h2>
+      </header>
+
+      <form action="#" method="POST" class="auth-form" id="form-soporte" novalidate>
+        
+        <!-- Nombre completo -->
+        <div class="form-group">
+          <label for="nombre">Nombre Completo</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" maxlength="100">
+          <span class="error-message" id="error-nombre" style="color: #ff4d4d; font-size: 0.85rem; display: none; margin-top: 5px;"></span>
+        </div>
+
+        <!-- Correo electrónico -->
+        <div class="form-group">
+          <label for="email">Correo Electrónico</label>
+          <input type="email" id="email" name="email" placeholder="usuario@duoc.cl" maxlength="100">
+          <small class="form-hint">Permitidos: @duoc.cl, @profesor.duoc.cl o @gmail.com</small>
+          <span class="error-message" id="error-email" style="color: #ff4d4d; font-size: 0.85rem; display: none; margin-top: 5px;"></span>
+        </div>
+
+        <!-- Comentario / Mensaje -->
+        <div class="form-group">
+          <label for="comentario">Comentario o Mensaje</label>
+          <textarea id="comentario" name="comentario" rows="5" placeholder="Escribe tu consulta (máximo 500 caracteres)" maxlength="500" style="width: 100%; padding: 10px; background: #111; color: #fff; border: 1px solid #333; border-radius: 4px;"></textarea>
+          <span class="error-message" id="error-comentario" style="color: #ff4d4d; font-size: 0.85rem; display: none; margin-top: 5px;"></span>
+        </div>
+
+        <!-- Feedback general -->
+        <div id="soporte-feedback" style="margin-bottom: 15px; font-weight: bold; display: none; text-align: center;"></div>
+
+        <!-- Botón de envío -->
+        <button type="submit" class="btn-primary btn-block">Enviar Mensaje</button>
+
+      </form>
+    </div>
+  </main>
 
   <!-- Footer Institucional -->
-<footer class="main-footer">
-  <div class="container footer-content">
-    <div class="footer-brand">
-      <h4>LEVEL-UP <span>GAMER</span></h4>
-      <p>La tienda online líder para jugadores en Chile. Despachos a todo el país.</p>
+  <footer class="main-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h4>LEVEL-UP <span>GAMER</span></h4>
+        <p>La tienda online líder para jugadores en Chile. Despachos a todo el país.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Navegación</h5>
+        <ul>
+          <li><a href="catalogo.html">Catálogo Completo</a></li>
+          <li><a href="registro.html">Registro y Beneficio Duoc</a></li>
+          <li><a href="soporte.html">Soporte Técnico</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h5>Comunidad</h5>
+        <p>Síguenos y comparte ofertas en redes sociales.</p>
+      </div>
     </div>
-    <div class="footer-links">
-      <h5>Navegación</h5>
-      <ul>
-        <li><a href="catalogo.html">Catálogo Completo</a></li>
-        <li><a href="registro.html">Registro y Beneficio Duoc</a></li>
-        <li><a href="soporte.html">Soporte Técnico</a></li>
-      </ul>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Level-Up Gamer - Proyecto Semestral Duoc UC. Todos los derechos reservados.</p>
     </div>
-    <div class="footer-social">
-      <h5>Comunidad</h5>
-      <p>Síguenos y comparte ofertas en redes sociales.</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2026 Level-Up Gamer - Proyecto Semestral Duoc UC. Todos los derechos reservados.</p>
-  </div>
-</footer>
-<script src="js/auth-nav.js"></script>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth-nav.js"></script>
+  <script src="js/soporte.js"></script>
 </body>
 </html>
