@@ -1,204 +1,236 @@
-/* ============================================================
-   LEVEL-UP GAMER — Carrito de compras
-   Persistencia mediante localStorage (requerimiento EV1)
-   ============================================================ */
+// ==========================================
+// 1. FUNCIONES BÁSICAS DE MEMORIA (LocalStorage)
+// ==========================================
 
-const CARRITO_KEY = "levelup_carrito";
-const DESCUENTO_DUOC = 0.2; // 20% de por vida para correos @duoc.cl / @duocuc.cl
-
-/** Lee el carrito desde localStorage */
-function leerCarrito() {
-  try {
-    const data = localStorage.getItem(CARRITO_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch (e) {
-    console.error("No se pudo leer el carrito guardado:", e);
-    return [];
-  }
-}
-
-/** Guarda el carrito en localStorage */
-function guardarCarrito(carrito) {
-  localStorage.setItem(CARRITO_KEY, JSON.stringify(carrito));
-  actualizarContadorCarrito();
-}
-
-/** Agrega un producto al carrito (o suma cantidad si ya existe) */
-function agregarAlCarrito(codigo, cantidad = 1) {
-  const producto = PRODUCTOS.find(p => p.codigo === codigo);
-  if (!producto) return;
-
-  const carrito = leerCarrito();
-  const item = carrito.find(i => i.codigo === codigo);
-
-  if (item) {
-    item.cantidad += cantidad;
+// Obtener la lista de productos guardados en el navegador
+function obtenerCarrito() {
+  const carritoGuardado = localStorage.getItem("carrito_levelup");
+  
+  if (carritoGuardado) {
+    return JSON.parse(carritoGuardado); // Convierte el texto guardado a lista JS
   } else {
-    carrito.push({ codigo, cantidad });
+    return []; // Si no hay nada, devuelve una lista vacía
+  }
+}
+
+// Guardar la lista actualizada en el navegador y actualizar el contador del header
+function guardarCarrito(listaProductos) {
+  localStorage.setItem("carrito_levelup", JSON.stringify(listaProductos));
+  actualizarContadorHeader();
+}
+
+// Actualizar el número del icono del carrito 🛒 en la barra superior
+function actualizarContadorHeader() {
+  const carrito = obtenerCarrito();
+  
+  // Sumamos la cantidad de todos los productos
+  let totalArticulos = 0;
+  for (let i = 0; i < carrito.length; i++) {
+    totalArticulos += carrito[i].cantidad;
   }
 
-  guardarCarrito(carrito);
-  mostrarToast(`${producto.nombre} se agregó al carrito`);
+  // Buscamos los elementos del HTML donde se muestra el número
+  const contadores = document.querySelectorAll("[data-cart-count]");
+  contadores.forEach(function (elemento) {
+    elemento.textContent = totalArticulos;
+  });
 }
 
-/** Cambia la cantidad de un ítem del carrito */
-function cambiarCantidad(codigo, nuevaCantidad) {
-  let carrito = leerCarrito();
-  const item = carrito.find(i => i.codigo === codigo);
-  if (!item) return;
+// ==========================================
+// 2. AGREGAR PRODUCTOS (Para usar desde el catálogo)
+// ==========================================
 
-  nuevaCantidad = Math.max(1, Math.min(99, parseInt(nuevaCantidad) || 1));
-  item.cantidad = nuevaCantidad;
+function agregarAlCarrito(idProducto) {
+  let carrito = obtenerCarrito();
 
-  guardarCarrito(carrito);
-  renderizarCarrito();
-}
-
-/** Elimina un ítem del carrito */
-function eliminarDelCarrito(codigo) {
-  let carrito = leerCarrito().filter(i => i.codigo !== codigo);
-  guardarCarrito(carrito);
-  renderizarCarrito();
-}
-
-/** Vacía el carrito completo */
-function vaciarCarrito() {
-  guardarCarrito([]);
-  renderizarCarrito();
-}
-
-/** Suma la cantidad total de ítems en el carrito */
-function totalItemsCarrito() {
-  return leerCarrito().reduce((acc, i) => acc + i.cantidad, 0);
-}
-
-/** Calcula el subtotal del carrito en CLP */
-function calcularSubtotal(carrito) {
-  return carrito.reduce((acc, item) => {
-    const producto = PRODUCTOS.find(p => p.codigo === item.codigo);
-    return producto ? acc + producto.precio * item.cantidad : acc;
-  }, 0);
-}
-
-/** Actualiza el contador visual del carrito en el header (todas las páginas) */
-function actualizarContadorCarrito() {
-  const contador = document.querySelector("[data-cart-count]");
-  if (contador) contador.textContent = totalItemsCarrito();
-}
-
-/** Muestra una notificación flotante breve */
-function mostrarToast(mensaje) {
-  let toast = document.querySelector(".toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.className = "toast";
-    document.body.appendChild(toast);
+  // Buscamos si el producto existe en el archivo data.js
+  let productoEncontrado = null;
+  if (typeof productos !== "undefined") {
+    productoEncontrado = productos.find(function (p) {
+      return p.id === idProducto;
+    });
   }
-  toast.textContent = mensaje;
-  toast.classList.add("visible");
-  clearTimeout(toast._timeout);
-  toast._timeout = setTimeout(() => toast.classList.remove("visible"), 2400);
-}
 
-/** Determina si el usuario tiene el descuento Duoc activo (guardado desde registro.html) */
-function tieneDescuentoDuoc() {
-  return localStorage.getItem("levelup_descuento_duoc") === "true";
-}
-
-/* ---------- Renderizado de la página carrito.html ---------- */
-
-function renderizarCarrito() {
-  const cuerpo = document.querySelector("[data-cart-body]");
-  const vacio = document.querySelector("[data-cart-empty]");
-  const tabla = document.querySelector("[data-cart-table]");
-  const resumen = document.querySelector("[data-cart-summary]");
-  if (!cuerpo) return; // no estamos en carrito.html
-
-  const carrito = leerCarrito();
-
-  if (carrito.length === 0) {
-    tabla.style.display = "none";
-    resumen.style.display = "none";
-    vacio.style.display = "block";
+  if (!productoEncontrado) {
+    alert("Error: No se encontró la información del producto.");
     return;
   }
 
-  vacio.style.display = "none";
-  tabla.style.display = "table";
-  resumen.style.display = "block";
+  // Revisamos si el producto ya está en el carrito
+  let existeEnCarrito = carrito.find(function (p) {
+    return p.id === idProducto;
+  });
 
-  cuerpo.innerHTML = carrito.map(item => {
-    const p = PRODUCTOS.find(pr => pr.codigo === item.codigo);
-    if (!p) return "";
-    const subtotal = p.precio * item.cantidad;
-    return `
-      <tr>
-        <td>
-          <div class="cart-item-info">
-            <img src="${p.img}" alt="${p.nombre}">
-            <div>
-              <div>${p.nombre}</div>
-              <div class="product-category">${p.categoria}</div>
-            </div>
-          </div>
-        </td>
-        <td>${formatearCLP(p.precio)}</td>
-        <td>
-          <div class="qty-control">
-            <button type="button" aria-label="Restar" data-qty-minus="${p.codigo}">−</button>
-            <input type="number" min="1" max="99" value="${item.cantidad}" aria-label="Cantidad" data-qty-input="${p.codigo}">
-            <button type="button" aria-label="Sumar" data-qty-plus="${p.codigo}">+</button>
-          </div>
-        </td>
-        <td>${formatearCLP(subtotal)}</td>
-        <td><button type="button" class="btn-danger" data-remove="${p.codigo}">Eliminar</button></td>
-      </tr>
-    `;
-  }).join("");
-
-  const subtotal = calcularSubtotal(carrito);
-  const conDescuento = tieneDescuentoDuoc();
-  const descuento = conDescuento ? subtotal * DESCUENTO_DUOC : 0;
-  const total = subtotal - descuento;
-
-  resumen.innerHTML = `
-    <div class="cart-summary-row"><span>Subtotal</span><span>${formatearCLP(subtotal)}</span></div>
-    ${conDescuento ? `<div class="cart-summary-row"><span class="discount-note">Descuento Duoc (20%)</span><span class="discount-note">−${formatearCLP(descuento)}</span></div>` : ""}
-    <div class="cart-summary-row total"><span>Total</span><span>${formatearCLP(total)}</span></div>
-    <button type="button" class="btn btn-accent btn-block mt-32" data-checkout>Proceder al pago</button>
-    <button type="button" class="btn btn-outline btn-block mt-32" data-vaciar>Vaciar carrito</button>
-  `;
-
-  // Delegación de eventos para los controles recién insertados
-  cuerpo.querySelectorAll("[data-qty-minus]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const codigo = btn.dataset.qtyMinus;
-      const actual = leerCarrito().find(i => i.codigo === codigo);
-      cambiarCantidad(codigo, (actual?.cantidad || 1) - 1);
+  if (existeEnCarrito) {
+    // Si ya existe, le sumamos 1 a la cantidad
+    existeEnCarrito.cantidad = existeEnCarrito.cantidad + 1;
+  } else {
+    // Si es nuevo, lo agregamos a la lista
+    carrito.push({
+      id: productoEncontrado.id,
+      nombre: productoEncontrado.nombre,
+      precio: productoEncontrado.precio,
+      imagen: productoEncontrado.imagen || "img/placeholder.svg",
+      cantidad: 1
     });
-  });
-  cuerpo.querySelectorAll("[data-qty-plus]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const codigo = btn.dataset.qtyPlus;
-      const actual = leerCarrito().find(i => i.codigo === codigo);
-      cambiarCantidad(codigo, (actual?.cantidad || 1) + 1);
-    });
-  });
-  cuerpo.querySelectorAll("[data-qty-input]").forEach(input => {
-    input.addEventListener("change", () => cambiarCantidad(input.dataset.qtyInput, input.value));
-  });
-  cuerpo.querySelectorAll("[data-remove]").forEach(btn => {
-    btn.addEventListener("click", () => eliminarDelCarrito(btn.dataset.remove));
-  });
+  }
 
-  resumen.querySelector("[data-vaciar]").addEventListener("click", vaciarCarrito);
-  resumen.querySelector("[data-checkout]").addEventListener("click", () => {
-    mostrarToast("¡Gracias por tu compra! (simulación — EV1 no incluye pago real)");
-    vaciarCarrito();
-  });
+  guardarCarrito(carrito);
+  alert("¡" + productoEncontrado.nombre + " agregado al carrito!");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  actualizarContadorCarrito();
-  renderizarCarrito();
+// ==========================================
+// 3. MOSTRAR EL CARRITO EN EL HTML (carrito.html)
+// ==========================================
+
+function mostrarCarritoEnPantalla() {
+  // Elementos principales de carrito.html
+  const mensajeVacio = document.querySelector("[data-cart-empty]");
+  const tablaCarrito = document.querySelector("[data-cart-table]");
+  const cuerpoTabla = document.querySelector("[data-cart-body]");
+  const resumenCarrito = document.querySelector("[data-cart-summary]");
+
+  // Si no estamos en la página del carrito (por ejemplo si estamos en el catálogo), se interrumpe la función
+  if (!cuerpoTabla) return;
+
+  const carrito = obtenerCarrito();
+
+  // Si el carrito está vacío:
+  if (carrito.length === 0) {
+    if (mensajeVacio) mensajeVacio.style.display = "block";
+    if (tablaCarrito) tablaCarrito.style.display = "none";
+    if (resumenCarrito) resumenCarrito.style.display = "none";
+    return;
+  }
+
+  // Si el carrito TIENE productos:
+  if (mensajeVacio) mensajeVacio.style.display = "none";
+  if (tablaCarrito) tablaCarrito.style.display = "table";
+  if (resumenCarrito) resumenCarrito.style.display = "block";
+
+  // Limpiamos la tabla antes de dibujar
+  cuerpoTabla.innerHTML = "";
+  let precioTotalAcumulado = 0;
+
+  // Recorremos los productos para crear las filas de la tabla
+  carrito.forEach(function (producto) {
+    const subtotal = producto.precio * producto.cantidad;
+    precioTotalAcumulado += subtotal;
+
+    // Crear la fila de la tabla
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+      <td class="cart-product-info">
+        <img src="${producto.imagen}" alt="${producto.nombre}" class="cart-img">
+        <span>${producto.nombre}</span>
+      </td>
+      <td>$${producto.precio.toLocaleString("es-CL")}</td>
+      <td>
+        <input type="number" min="1" value="${producto.cantidad}" class="cart-qty-input" data-id="${producto.id}">
+      </td>
+      <td>$${subtotal.toLocaleString("es-CL")}</td>
+      <td>
+        <button class="btn-delete" data-id="${producto.id}">✕</button>
+      </td>
+    `;
+
+    cuerpoTabla.appendChild(fila);
+  });
+
+  // Mostrar el cuadro de resumen y total
+  resumenCarrito.innerHTML = `
+    <div class="summary-box">
+      <h3>Resumen del Pedido</h3>
+      <div class="summary-row">
+        <span>Total:</span>
+        <span class="summary-total">$${precioTotalAcumulado.toLocaleString("es-CL")}</span>
+      </div>
+      <button class="btn btn-primary btn-block" id="btn-pagar">Pagar Ahora</button>
+      <button class="btn btn-outline btn-block mt-8" id="btn-vaciar">Vaciar Carrito</button>
+    </div>
+  `;
+
+  // --- EVENTOS DE LOS BOTONES Y ENTRADAS ---
+
+  // Evento 1: Cambiar cantidad de productos
+  document.querySelectorAll(".cart-qty-input").forEach(function (input) {
+    input.addEventListener("change", function (e) {
+      const id = parseInt(e.target.dataset.id);
+      const nuevaCantidad = parseInt(e.target.value);
+      if (nuevaCantidad > 0) {
+        cambiarCantidad(id, nuevaCantidad);
+      }
+    });
+  });
+
+  // Evento 2: Eliminar un solo producto
+  document.querySelectorAll(".btn-delete").forEach(function (boton) {
+    boton.addEventListener("click", function (e) {
+      const id = parseInt(e.target.dataset.id);
+      eliminarUnProducto(id);
+    });
+  });
+
+  // Evento 3: Vaciar todo el carrito
+  const botonVaciar = document.getElementById("btn-vaciar");
+  if (botonVaciar) {
+    botonVaciar.addEventListener("click", vaciarTodoElCarrito);
+  }
+
+  // Evento 4: Pagar (Mensaje personalizable aquí)
+  const botonPagar = document.getElementById("btn-pagar");
+  if (botonPagar) {
+    botonPagar.addEventListener("click", function () {
+      // Puedes cambiar la frase de aquí por la que tú quieras
+      alert("¡Gracias por tu compra! Tu pedido ha sido procesado con éxito.");
+      vaciarTodoElCarrito();
+    });
+  }
+}
+
+// ==========================================
+// 4. ACCIONES DEL CARRITO (Modificar / Eliminar)
+// ==========================================
+
+// Cambiar la cantidad de un producto específico
+function cambiarCantidad(idProducto, nuevaCantidad) {
+  let carrito = obtenerCarrito();
+  const producto = carrito.find(function (p) {
+    return p.id === idProducto;
+  });
+
+  if (producto) {
+    producto.cantidad = nuevaCantidad;
+    guardarCarrito(carrito);
+    mostrarCarritoEnPantalla();
+  }
+}
+
+// Eliminar un solo producto de la lista
+function eliminarUnProducto(idProducto) {
+  let carrito = obtenerCarrito();
+  
+  // Guardamos todos los productos EXCEPTO el que queremos borrar
+  let carritoNuevo = carrito.filter(function (p) {
+    return p.id !== idProducto;
+  });
+
+  guardarCarrito(carritoNuevo);
+  mostrarCarritoEnPantalla();
+}
+
+// Vaciar por completo el carrito
+function vaciarTodoElCarrito() {
+  localStorage.removeItem("carrito_levelup");
+  actualizarContadorHeader();
+  mostrarCarritoEnPantalla();
+}
+
+// ==========================================
+// 5. INICIALIZACIÓN AL CARGAR LA PÁGINA
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", function () {
+  actualizarContadorHeader();
+  mostrarCarritoEnPantalla();
 });

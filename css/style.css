@@ -639,3 +639,110 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr;
   }
 }
+/* ==========================================================================
+   ESTILOS PARA EL CARRITO DE COMPRAS
+   ========================================================================== */
+
+/* Tabla de productos */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: rgba(20, 20, 20, 0.6);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cart-table th, 
+.cart-table td {
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid #333;
+}
+
+.cart-table th {
+  background-color: #111;
+  color: #00ffcc;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.cart-product-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #333;
+}
+
+/* Control de Cantidad y Botones */
+.cart-qty-input {
+  width: 60px;
+  padding: 6px;
+  background-color: #222;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-delete:hover {
+  transform: scale(1.2);
+  color: #ff0000;
+}
+
+/* Resumen del Carrito */
+.cart-summary {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.summary-box {
+  background-color: #111;
+  border: 1px solid #333;
+  padding: 24px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.summary-box h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #00ffcc;
+}
+
+.btn-block {
+  width: 100%;
+  text-align: center;
+  display: block;
+}
+
+.mt-8 { margin-top: 8px; }
+.mt-32 { margin-top: 32px; }
